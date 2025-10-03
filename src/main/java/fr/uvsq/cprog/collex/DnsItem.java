@@ -2,6 +2,7 @@ package fr.uvsq.cprog.collex;
 
 import fr.uvsq.cprog.collex.AdresseIP;
 import fr.uvsq.cprog.collex.FormatException;
+import fr.uvsq.cprog.collex.NomMachine;
 
 public class DnsItem {
     private AdresseIP adresse;
@@ -16,6 +17,14 @@ public class DnsItem {
         String[] splitted = s.split("\s");
         this.adresse = new AdresseIP(splitted[0]);
         this.nom = new NomMachine(splitted[1]);
+    }
+
+    public AdresseIP getAdresse() {
+        return this.adresse;
+    }
+
+    public NomMachine getNom() {
+        return this.nom;
     }
 
     public boolean equals(DnsItem other) {

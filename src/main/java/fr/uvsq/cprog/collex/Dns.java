@@ -5,14 +5,39 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
+
+import fr.uvsq.cprog.collex.NomMachine;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Dns {
     private Properties proprietesBDD = null;
+    private List<DnsItem> items;
 
     public Dns() throws IOException {
         this.chargerProprietes();
+        this.items = this.loadItems();
+    }
+
+    public DnsItem getItem(AdresseIP ip) {
+        for (DnsItem i : this.items) {
+            if (i.getAdresse().equals(ip)) {
+              return i;
+            }
+        }
+
+        return null;
+    }
+
+    public DnsItem getItem(NomMachine nm) {
+        for (DnsItem i : this.items) {
+            if (i.getNom().equals(nm)) {
+              return i;
+            }
+        }
+
+        return null;
     }
 
     public List<DnsItem> loadItems() throws IOException {
