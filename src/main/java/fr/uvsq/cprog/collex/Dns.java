@@ -9,6 +9,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import fr.uvsq.cprog.collex.AucunItemException;
 import fr.uvsq.cprog.collex.ExisteDejaException;
 import fr.uvsq.cprog.collex.NomMachine;
 
@@ -25,39 +26,43 @@ public class Dns {
     }
 
     public void addItem(DnsItem item) throws ExisteDejaException, IOException {
-        DnsItem foundByName = this.getItem(item.getNom());
-        DnsItem foundByAdress = this.getItem(item.getAdresse());
-
-        if (foundByName != null || foundByAdress != null) {
+        // `foundByName` et `foundByAdresse` doivent tous les deux
+        // soulever une `AucunItemException` pour que le code de cette fonction s'exécute.
+        try {
+            DnsItem foundByName = this.getItem(item.getNom());
             throw new ExisteDejaException(item.toString());
-        } else {
-            items.add(item);
-            Files.writeString(
-              Paths.get(this.proprietesBDD.getProperty("filepath")),
-              String.format("%s", item.toString()),
-              StandardOpenOption.APPEND
-            );
+        } catch(AucunItemException e0) {
+            try {
+                DnsItem foundByAdress = this.getItem(item.getAdresse());
+            } catch(AucunItemException e1) {
+                items.add(item);
+                Files.writeString(
+                  Paths.get(this.proprietesBDD.getProperty("filepath")),
+                  String.format("%s", item.toString()),
+                  StandardOpenOption.APPEND
+                );
+            }
         }
     }
 
-    public DnsItem getItem(AdresseIP ip) {
+    public DnsItem getItem(AdresseIP ip) throws AucunItemException {
         for (DnsItem i : this.items) {
             if (i.getAdresse().equals(ip)) {
               return i;
             }
         }
 
-        return null;
+        throw new AucunItemException(ip.toString());
     }
 
-    public DnsItem getItem(NomMachine nm) {
+    public DnsItem getItem(NomMachine nm) throws AucunItemException {
         for (DnsItem i : this.items) {
             if (i.getNom().equals(nm)) {
               return i;
             }
         }
 
-        return null;
+        throw new AucunItemException(nm.toString());
     }
 
     public List<DnsItem> getItems(String domaine) {

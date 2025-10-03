@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
+import fr.uvsq.cprog.collex.AucunItemException;
 import fr.uvsq.cprog.collex.BoundsException;
 import fr.uvsq.cprog.collex.ExisteDejaException;
 import fr.uvsq.cprog.collex.FormatException;
@@ -37,7 +38,7 @@ public class DnsTest {
     }
 
     @Test
-    public void recuperationSpecifique() throws FormatException, BoundsException, IOException {
+    public void recuperationSpecifique() throws FormatException, BoundsException, IOException, AucunItemException {
         Dns dns = new Dns();
         DnsItem expected = new DnsItem("192.168.0.1 www.uvsq.fr");
         DnsItem found0 = dns.getItem(new AdresseIP(192, 168, 0, 1));
