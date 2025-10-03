@@ -22,7 +22,7 @@ public class NomMachineTest {
     }
 
     @Test
-    public void egalite() {
+    public void egalite() throws FormatException {
         NomMachine left = new NomMachine("www.uvsq.sama");
         NomMachine right = new NomMachine("fr.uvsq.sama");
 

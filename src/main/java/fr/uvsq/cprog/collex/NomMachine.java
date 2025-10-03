@@ -25,4 +25,10 @@ public class NomMachine {
             this.local
         );
     }
+
+    public boolean equals(final NomMachine other) {
+        return this.machine.equals(other.machine)
+            && this.domaine.equals(other.domaine)
+            && this.local.equals(other.local);
+    }
 }

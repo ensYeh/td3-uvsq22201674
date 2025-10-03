@@ -56,4 +56,13 @@ public class AdresseIP {
             this.fields[3]
         );
     }
+
+    public boolean equals(AdresseIP other) {
+        for (int i = 0; i < 4; i++) {
+            if (this.fields[i] != other.fields[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

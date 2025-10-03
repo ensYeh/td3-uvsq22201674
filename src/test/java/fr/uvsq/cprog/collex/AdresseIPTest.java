@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
+import fr.uvsq.cprog.collex.BoundsException;
 import fr.uvsq.cprog.collex.FormatException;
 
 public class AdresseIPTest {
@@ -34,9 +35,9 @@ public class AdresseIPTest {
     }
 
     @Test
-    public void egalite() {
+    public void egalite() throws BoundsException, FormatException {
         AdresseIP left = new AdresseIP("58.65.12.254");
-        AdresseIP right = new AdresseIp("058.065.12.254");
+        AdresseIP right = new AdresseIP("058.065.12.254");
 
         assertTrue(left.equals(right));
     }
