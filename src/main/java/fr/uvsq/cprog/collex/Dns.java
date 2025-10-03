@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import fr.uvsq.cprog.collex.NomMachine;
 
@@ -18,6 +19,10 @@ public class Dns {
     public Dns() throws IOException {
         this.chargerProprietes();
         this.items = this.loadItems();
+    }
+
+    public void addItem(DnsItem item) {
+        
     }
 
     public DnsItem getItem(AdresseIP ip) {
@@ -38,6 +43,15 @@ public class Dns {
         }
 
         return null;
+    }
+
+    public List<DnsItem> getItems(String domaine) {
+        return items
+            .stream()
+            .filter((DnsItem item) -> {
+              return item.getNom().getDomaine().equals(domaine);
+            })
+            .collect(Collectors.toList());
     }
 
     public List<DnsItem> loadItems() throws IOException {

@@ -17,6 +17,10 @@ public class NomMachine {
         this.local = splitted[2];
     }
 
+    public String getDomaine() {
+        return this.domaine + "." + this.local;
+    }
+
     public String toString() {
         return String.format(
             "%s.%s.%s",

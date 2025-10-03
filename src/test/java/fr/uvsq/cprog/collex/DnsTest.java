@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import fr.uvsq.cprog.collex.BoundsException;
+import fr.uvsq.cprog.collex.ExisteDejaException;
 import fr.uvsq.cprog.collex.FormatException;
 
 import java.io.IOException;
@@ -46,7 +47,21 @@ public class DnsTest {
     }
 
     @Test
+    public void recuperationDomaine() throws FormatException, BoundsException, IOException {
+        Dns dns = new Dns();
+        DnsItem expected = new DnsItem("192.168.0.1 www.uvsq.fr");
+        List<DnsItem> loaded = dns.getItems("uvsq.fr");
+        DnsItem found = loaded.iterator().next();
+
+        assertTrue(expected.equals(found));
+    }
+
+    @Test
     public void doubleInsertion() {
-        // TODO: Implémenter ce test
+        Dns dns = new Dns();
+        assertThrows(
+            ExisteDejaException.class,
+            () -> dns.addItem(new DnsItem("192.168.0.1 www.uvsq.fr"))
+        );
     }
 }
