@@ -31,6 +31,17 @@ public class DnsTest {
     }
 
     @Test
+    public void recuperationSpecifique() {
+        Dns dns = new Dns();
+        DnsItem expected = new DnsItem("192.168.0.1 www.uvsq.fr");
+        DnsItem found0 = dns.getItem(new AdresseIP(192, 168, 0, 1));
+        DnsItem found1 = dns.getItem(new NomMachine("www.uvsq.fr"));
+
+        assertTrue(expected.equals(found0));
+        assertTrue(expected.equals(found1));
+    }
+
+    @Test
     public void doubleInsertion() {
         // TODO: Implémenter ce test
     }

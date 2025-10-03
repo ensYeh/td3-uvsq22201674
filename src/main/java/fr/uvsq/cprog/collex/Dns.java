@@ -12,7 +12,7 @@ public class Dns {
     private Properties proprietesBDD = null;
 
     public Dns() throws IOException {
-      this.chargerProprietes();
+        this.chargerProprietes();
     }
 
     public List<DnsItem> loadItems() throws IOException {
