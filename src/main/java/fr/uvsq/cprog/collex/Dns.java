@@ -3,10 +3,13 @@ package fr.uvsq.cprog.collex;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import fr.uvsq.cprog.collex.ExisteDejaException;
 import fr.uvsq.cprog.collex.NomMachine;
 
 import java.util.ArrayList;
@@ -21,8 +24,20 @@ public class Dns {
         this.items = this.loadItems();
     }
 
-    public void addItem(DnsItem item) {
-        
+    public void addItem(DnsItem item) throws ExisteDejaException, IOException {
+        DnsItem foundByName = this.getItem(item.getNom());
+        DnsItem foundByAdress = this.getItem(item.getAdresse());
+
+        if (foundByName != null || foundByAdress != null) {
+            throw new ExisteDejaException(item.toString());
+        } else {
+            items.add(item);
+            Files.writeString(
+              Paths.get(this.proprietesBDD.getProperty("filepath")),
+              String.format("%s", item.toString()),
+              StandardOpenOption.APPEND
+            );
+        }
     }
 
     public DnsItem getItem(AdresseIP ip) {

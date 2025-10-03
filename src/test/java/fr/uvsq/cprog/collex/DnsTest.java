@@ -1,6 +1,7 @@
 package fr.uvsq.cprog.collex;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
@@ -57,7 +58,20 @@ public class DnsTest {
     }
 
     @Test
-    public void doubleInsertion() {
+    public void simpleInsertion() throws IOException, FormatException, BoundsException {
+        Dns dns = new Dns();
+        try {
+            dns.addItem(
+                new DnsItem("76.16.0.1 www.banana.fr")
+            );
+        } catch (ExisteDejaException e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+    }
+
+    @Test
+    public void doubleInsertion() throws IOException {
         Dns dns = new Dns();
         assertThrows(
             ExisteDejaException.class,
