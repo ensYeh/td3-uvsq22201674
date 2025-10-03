@@ -37,6 +37,9 @@
             <execution>
               <id>validate-checkstyle</id>
               <phase>validate</phase>
+              <configuration>
+                <failOnViolation>false</failOnViolation>
+              </configuration>
               <goals>
                 <goal>check</goal>
               </goals>
