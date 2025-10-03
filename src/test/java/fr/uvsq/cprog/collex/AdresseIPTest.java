@@ -1,6 +1,7 @@
 package fr.uvsq.cprog.collex;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import org.junit.Test;
@@ -30,5 +31,13 @@ public class AdresseIPTest {
             System.out.println(e.getMessage());
             fail();
         }
+    }
+
+    @Test
+    public void egalite() {
+        AdresseIP left = new AdresseIP("58.65.12.254");
+        AdresseIP right = new AdresseIp("058.065.12.254");
+
+        assertTrue(left.equals(right));
     }
 }

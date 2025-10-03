@@ -1,6 +1,7 @@
 package fr.uvsq.cprog.collex;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
@@ -18,5 +19,13 @@ public class NomMachineTest {
             FormatException.class,
             () -> new NomMachine("Je suis un nom de machine invalide")
         );
+    }
+
+    @Test
+    public void egalite() {
+        NomMachine left = new NomMachine("www.uvsq.sama");
+        NomMachine right = new NomMachine("fr.uvsq.sama");
+
+        assertFalse(left.equals(right));
     }
 }
