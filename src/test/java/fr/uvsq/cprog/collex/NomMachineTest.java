@@ -16,7 +16,7 @@ public class NomMachineTest {
         }
         assertThrows(
             FormatException.class,
-            () -> new NomMachine("Je suis un nom de machine invalide");
+            () -> new NomMachine("Je suis un nom de machine invalide")
         );
     }
 }
