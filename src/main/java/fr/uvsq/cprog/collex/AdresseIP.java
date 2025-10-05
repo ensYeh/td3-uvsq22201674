@@ -5,7 +5,7 @@ import java.util.Objects;
 import fr.uvsq.cprog.collex.BoundsException;
 import fr.uvsq.cprog.collex.FormatException;
 
-public class AdresseIP {
+public class AdresseIP implements Comparable<AdresseIP> {
     static final int FIELD_MIN = 0;
     static final int FIELD_MAX = 255; 
     
@@ -78,5 +78,17 @@ public class AdresseIP {
             }
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(AdresseIP other) {
+        for (int i = 0; i < 4; i++) {
+            if (this.fields[i] < other.fields[i]) {
+                return -1;
+            } else if (this.fields[i] > other.fields[i]) {
+                return 1;
+            }
+        }
+        return 0;
     }
 }

@@ -27,11 +27,17 @@ public class DnsItem {
         return this.nom;
     }
 
-    public boolean equals(DnsItem other) {
-        return this.adresse.equals(other.adresse)
-            && this.nom.equals(other.nom);
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof DnsItem)) {
+            return false;
+        }
+        DnsItem castedOther = (DnsItem) other;
+        return this.adresse.equals(castedOther.adresse)
+            && this.nom.equals(castedOther.nom);
     }
 
+    @Override
     public String toString() {
         return String.format(
             "%s %s",

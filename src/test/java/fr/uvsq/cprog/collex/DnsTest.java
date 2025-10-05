@@ -48,9 +48,10 @@ public class DnsTest {
     @Test
     public void recuperationDomaine() throws FormatException, BoundsException, IOException {
         Dns dns = new Dns();
-        DnsItem expected = new DnsItem("192.168.0.1 www.uvsq.fr");
-        List<DnsItem> loaded = dns.getItems("uvsq.fr");
-        DnsItem found = loaded.iterator().next();
+        List<DnsItem> expected = new ArrayList<DnsItem>();
+        expected.add(new DnsItem("53.35.16.61 xylophone.uvsq.fr"));
+        expected.add(new DnsItem("192.168.0.1 www.uvsq.fr"));
+        List<DnsItem> found = dns.getItems("uvsq.fr");
 
         assertTrue(expected.equals(found));
     }
@@ -66,7 +67,7 @@ public class DnsTest {
             // Nettoyage de la base de données pour reproductibilité du test
             Files.writeString(
                 dns.getDatabasePath(),
-                "192.168.0.1 www.uvsq.fr\n53.35.16.61 www.xylophone.com\n",
+                "192.168.0.1 www.uvsq.fr\n53.35.16.61 xylophone.uvsq.fr\n201.102.10.1 capital.marx.de\n",
                 StandardOpenOption.WRITE,
                 StandardOpenOption.TRUNCATE_EXISTING
             );

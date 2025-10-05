@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import fr.uvsq.cprog.collex.FormatException;
 
-public class NomMachine {
+public class NomMachine implements Comparable<NomMachine>  {
     private String machine;
     private String domaine;
     private String local;
@@ -46,5 +46,10 @@ public class NomMachine {
         return this.machine.equals(casted_other.machine)
             && this.domaine.equals(casted_other.domaine)
             && this.local.equals(casted_other.local);
+    }
+
+    @Override
+    public int compareTo(NomMachine other) {
+        return this.toString().compareTo(other.toString());
     }
 }
