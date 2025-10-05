@@ -1,5 +1,7 @@
 package fr.uvsq.cprog.collex;
 
+import java.util.Objects;
+
 import fr.uvsq.cprog.collex.BoundsException;
 import fr.uvsq.cprog.collex.FormatException;
 
@@ -57,9 +59,21 @@ public class AdresseIP {
         );
     }
 
-    public boolean equals(AdresseIP other) {
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.fields[0], this.fields[1], this.fields[2], this.fields[3]);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (! (other instanceof AdresseIP)) {
+            return false;
+        }
+
+        AdresseIP casted_other = (AdresseIP) other;
+        
         for (int i = 0; i < 4; i++) {
-            if (this.fields[i] != other.fields[i]) {
+            if (this.fields[i] != casted_other.fields[i]) {
                 return false;
             }
         }

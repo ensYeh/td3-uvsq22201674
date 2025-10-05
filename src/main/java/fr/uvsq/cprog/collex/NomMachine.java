@@ -1,5 +1,7 @@
 package fr.uvsq.cprog.collex;
 
+import java.util.Objects;
+
 import fr.uvsq.cprog.collex.FormatException;
 
 public class NomMachine {
@@ -30,9 +32,19 @@ public class NomMachine {
         );
     }
 
-    public boolean equals(final NomMachine other) {
-        return this.machine.equals(other.machine)
-            && this.domaine.equals(other.domaine)
-            && this.local.equals(other.local);
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.machine, this.domaine, this.local);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (! (other instanceof NomMachine)) {
+            return false;
+        }
+        NomMachine casted_other = (NomMachine) other;
+        return this.machine.equals(casted_other.machine)
+            && this.domaine.equals(casted_other.domaine)
+            && this.local.equals(casted_other.local);
     }
 }

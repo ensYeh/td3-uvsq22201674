@@ -9,20 +9,35 @@ import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import fr.uvsq.cprog.collex.AucunItemException;
-import fr.uvsq.cprog.collex.ExisteDejaException;
+import fr.uvsq.cprog.collex.AdresseIP;
+import fr.uvsq.cprog.collex.DnsItem;
 import fr.uvsq.cprog.collex.NomMachine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Dns {
     private Properties proprietesBDD = null;
-    private List<DnsItem> items;
+    /**
+     * Cette HashMap permet de récupérer un nom de machine à partir d'une adresse en O(1).
+     */
+    private HashMap<AdresseIP, NomMachine> adresse_nom_map = new HashMap<AdresseIP, NomMachine>();
+    /**
+     * Cette HashMap permet de récupérer une adresse à partir d'un nom en O(1).
+     */
+    private HashMap<NomMachine, AdresseIP> nom_adresse_map = new HashMap<NomMachine, AdresseIP>();
 
     public Dns() throws IOException {
         this.chargerProprietes();
-        this.items = this.loadItems();
+
+        // On remplie les HashMap avec les DnsItem sauvegardés.
+        List<DnsItem> items = this.loadItems();
+        for (DnsItem item : items) {
+            this.nom_adresse_map.put(item.getNom(), item.getAdresse());
+            this.adresse_nom_map.put(item.getAdresse(), item.getNom());
+        }
     }
 
     public void addItem(DnsItem item) throws ExisteDejaException, IOException {
@@ -34,11 +49,13 @@ public class Dns {
         } catch(AucunItemException e0) {
             try {
                 DnsItem foundByAdress = this.getItem(item.getAdresse());
+                throw new ExisteDejaException(item.toString());
             } catch(AucunItemException e1) {
-                items.add(item);
+                nom_adresse_map.put(item.getNom(), item.getAdresse());
+                adresse_nom_map.put(item.getAdresse(), item.getNom());
                 Files.writeString(
                   Paths.get(this.proprietesBDD.getProperty("filepath")),
-                  String.format("%s", item.toString()),
+                  String.format("%s\n", item.toString()),
                   StandardOpenOption.APPEND
                 );
             }
@@ -46,32 +63,37 @@ public class Dns {
     }
 
     public DnsItem getItem(AdresseIP ip) throws AucunItemException {
-        for (DnsItem i : this.items) {
-            if (i.getAdresse().equals(ip)) {
-              return i;
-            }
-        }
+        NomMachine nom = this.adresse_nom_map.get(ip);
 
-        throw new AucunItemException(ip.toString());
+        if (nom == null) {
+            // L'adresse n'est pas dans la BDD
+            throw new AucunItemException(ip.toString());
+        } else {
+            return new DnsItem(ip, nom);
+        }
     }
 
-    public DnsItem getItem(NomMachine nm) throws AucunItemException {
-        for (DnsItem i : this.items) {
-            if (i.getNom().equals(nm)) {
-              return i;
-            }
+    public DnsItem getItem(NomMachine nom) throws AucunItemException {
+        AdresseIP ip = this.nom_adresse_map.get(nom);
+        if (ip == null) {
+            // Le nom n'est pas dans la BDD
+            throw new AucunItemException(nom.toString());
+        } else {
+            return new DnsItem(ip, nom);
         }
-
-        throw new AucunItemException(nm.toString());
     }
 
     public List<DnsItem> getItems(String domaine) {
-        return items
-            .stream()
-            .filter((DnsItem item) -> {
-              return item.getNom().getDomaine().equals(domaine);
-            })
-            .collect(Collectors.toList());
+        LinkedList<DnsItem> result = new LinkedList<DnsItem>();
+        for (HashMap.Entry<NomMachine, AdresseIP> ligne : this.nom_adresse_map.entrySet()) {
+            NomMachine nom = ligne.getKey();
+            AdresseIP adresse = ligne.getValue();
+
+            if (nom.getDomaine().equals(domaine)) {
+                result.add(new DnsItem(adresse, nom));
+            }
+        }
+        return result;
     }
 
     public List<DnsItem> loadItems() throws IOException {

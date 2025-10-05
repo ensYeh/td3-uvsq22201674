@@ -6,11 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
-import fr.uvsq.cprog.collex.AucunItemException;
-import fr.uvsq.cprog.collex.BoundsException;
-import fr.uvsq.cprog.collex.ExisteDejaException;
-import fr.uvsq.cprog.collex.FormatException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
