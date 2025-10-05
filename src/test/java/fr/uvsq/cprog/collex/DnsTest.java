@@ -7,6 +7,8 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +61,14 @@ public class DnsTest {
         try {
             dns.addItem(
                 new DnsItem("76.16.0.1 www.banana.fr")
+            );
+
+            // Nettoyage de la base de données pour reproductibilité du test
+            Files.writeString(
+                dns.getDatabasePath(),
+                "192.168.0.1 www.uvsq.fr\n",
+                StandardOpenOption.WRITE,
+                StandardOpenOption.TRUNCATE_EXISTING
             );
         } catch (ExisteDejaException e) {
             System.out.println(e.getMessage());

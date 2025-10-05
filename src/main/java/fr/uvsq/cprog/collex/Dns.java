@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 import java.util.stream.Collectors;
-
-import fr.uvsq.cprog.collex.AdresseIP;
-import fr.uvsq.cprog.collex.DnsItem;
-import fr.uvsq.cprog.collex.NomMachine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +51,7 @@ public class Dns {
                 nom_adresse_map.put(item.getNom(), item.getAdresse());
                 adresse_nom_map.put(item.getAdresse(), item.getNom());
                 Files.writeString(
-                  Paths.get(this.proprietesBDD.getProperty("filepath")),
+                  this.getDatabasePath(),
                   String.format("%s\n", item.toString()),
                   StandardOpenOption.APPEND
                 );
@@ -98,7 +95,7 @@ public class Dns {
 
     public List<DnsItem> loadItems() throws IOException {
         List<String> lines = Files.readAllLines(
-          Paths.get(this.proprietesBDD.getProperty("filepath"))
+          this.getDatabasePath()
         );
 
         List<DnsItem> toReturn = new ArrayList<DnsItem>();
@@ -113,6 +110,10 @@ public class Dns {
             }
         }
         return toReturn;
+    }
+
+    public Path getDatabasePath() {
+        return Paths.get(this.proprietesBDD.getProperty("filepath"));
     }
 
     private void chargerProprietes() throws IOException {
