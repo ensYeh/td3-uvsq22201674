@@ -66,7 +66,7 @@ public class DnsTest {
             // Nettoyage de la base de données pour reproductibilité du test
             Files.writeString(
                 dns.getDatabasePath(),
-                "192.168.0.1 www.uvsq.fr\n",
+                "192.168.0.1 www.uvsq.fr\n53.35.16.61 www.xylophone.com\n",
                 StandardOpenOption.WRITE,
                 StandardOpenOption.TRUNCATE_EXISTING
             );
