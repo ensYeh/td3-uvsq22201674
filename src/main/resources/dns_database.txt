@@ -1,2 +1,1 @@
 192.168.0.1 www.uvsq.fr
-76.16.0.1 www.banana.fr
