@@ -1,7 +1,5 @@
 package fr.uvsq.cprog.collex;
 
-import fr.uvsq.cprog.collex.AucunItemException;
-
 public class RechercheNom implements Commande<AdresseIP> {
     private Dns dns;
     private NomMachine nom;
