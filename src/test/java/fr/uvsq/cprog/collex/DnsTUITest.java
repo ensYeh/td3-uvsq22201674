@@ -14,12 +14,12 @@ public class DnsTUITest {
         DnsTUI tui = new DnsTUI(dns, etat);
 
         try {
-            Commande ajout = tui.parserCommande("add 192.168.0.1 www.uvsq.fr");
-            Commande adresse = tui.parserCommande("192.168.0.1");
-            Commande nom = tui.parserCommande("www.uvsq.fr");
-            Commande liste_nom = tui.parserCommande("ls uvsq.fr");
-            Commande liste_adresse = tui.parserCommande("ls -a uvsq.fr");
-            Commande quitter = tui.parserCommande("quit");
+            Commande ajout = tui.nextCommande("add 192.168.0.1 www.uvsq.fr");
+            Commande adresse = tui.nextCommande("192.168.0.1");
+            Commande nom = tui.nextCommande("www.uvsq.fr");
+            Commande liste_nom = tui.nextCommande("ls uvsq.fr");
+            Commande liste_adresse = tui.nextCommande("ls -a uvsq.fr");
+            Commande quitter = tui.nextCommande("quit");
 
             assertTrue(ajout instanceof AjouterItem);
             assertTrue(adresse instanceof RechercheAdresse);

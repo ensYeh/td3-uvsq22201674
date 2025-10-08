@@ -11,10 +11,21 @@ public class DnsTUI {
 		this.etat = arg1;
 	}
 
-	public Commande parserCommande(String text) throws CommandeInconnueException, FormatException, BoundsException, NombreArgumentsException {
+	public void affiche(Object e) {
+		if (e == null) {
+			// Ne rien afficher.
+		} else if (e instanceof Exception) {
+			Exception err = (Exception) e;
+			System.out.println(String.format("ERREUR : \"%s\"", err.getMessage()));
+		} else {
+			System.out.println(e.toString());
+		}
+	}
+
+	public Commande nextCommande(String text) throws CommandeInconnueException, FormatException, BoundsException, NombreArgumentsException {
 		String[] splited = text.split("\s");
 
-		if (splited.length == 0) {
+		if (splited.length == 0 || splited[0].isEmpty()) {
 			return new QuitterApp(this.etat);
 		}
 
