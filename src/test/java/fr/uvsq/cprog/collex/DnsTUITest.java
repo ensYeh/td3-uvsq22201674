@@ -1,6 +1,7 @@
 package fr.uvsq.cprog.collex;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
@@ -31,5 +32,37 @@ public class DnsTUITest {
             System.out.println(e.getMessage());
             fail();
         }
+    }
+
+    @Test
+    public void mauvaisNombreDArguments() throws IOException {
+        Dns dns = new Dns();
+        EtatApp etat = new EtatApp();
+        DnsTUI tui = new DnsTUI(dns, etat);
+
+        assertThrows(
+            NombreArgumentsException.class,
+            () -> tui.nextCommande("add 192.168.0.1 www.uvsq.fr banane")
+        );
+        assertThrows(
+            NombreArgumentsException.class,
+            () -> tui.nextCommande("192.168.0.1 banane")
+        );
+        assertThrows(
+            NombreArgumentsException.class,
+            () -> tui.nextCommande("www.uvsq.fr banane")
+        );
+        assertThrows(
+            FormatException.class,
+            () -> tui.nextCommande("ls uvsq.fr banane")
+        );
+        assertThrows(
+            NombreArgumentsException.class,
+            () -> tui.nextCommande("ls -a uvsq.fr banane")
+        );
+        assertThrows(
+            NombreArgumentsException.class,
+            () -> tui.nextCommande("quit banane")
+        );
     }
 }
