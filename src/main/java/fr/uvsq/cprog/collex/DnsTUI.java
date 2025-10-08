@@ -2,15 +2,33 @@ package fr.uvsq.cprog.collex;
 
 import java.util.Arrays;
 
+/**
+ * Gère le parsing et l'affichage de l'application en ligne de commande.
+ */
 public class DnsTUI {
+	/**
+	 * Le `Dns` à passer aux commandes.
+	 */
 	private Dns dns;
+	/**
+	 * L'`EtatApp` à passer aux commandes.
+	 */
 	private EtatApp etat;
 
+	/**
+	 * Simple constructeur.
+	 * @param arg0 le `Dns` à passer aux commandes
+	 * @param arg1 l'`EtatApp` à passer aux commandes
+	 */
 	public DnsTUI(Dns arg0, EtatApp arg1) {
 		this.dns = arg0;
 		this.etat = arg1;
 	}
 
+	/**
+	 * Gère l'affichage d'un résultat de commande.
+	 * @param e le résultat de la commande
+	 */
 	public void affiche(Object e) {
 		if (e == null) {
 			// Ne rien afficher.
@@ -22,6 +40,10 @@ public class DnsTUI {
 		}
 	}
 
+	/**
+	 * Parse une commande.
+	 * @param text la commande parsée
+	 */
 	public Commande nextCommande(String text) throws CommandeInconnueException, FormatException, BoundsException, NombreArgumentsException {
 		String[] splited = text.split("\s");
 
@@ -71,8 +93,4 @@ public class DnsTUI {
 			throw new CommandeInconnueException(splited[0]);
 		}
 	}
-
-    public void nextCommande() {
-        //TODO
-    }
 }

@@ -5,8 +5,17 @@ import java.util.Objects;
 import fr.uvsq.cprog.collex.BoundsException;
 import fr.uvsq.cprog.collex.FormatException;
 
+/**
+ * Contient une représentation d'adresse IPv4.
+ */
 public class AdresseIP implements Comparable<AdresseIP> {
+    /**
+     * La valeur minimale des champs de l'adresse.
+     */
     static final int FIELD_MIN = 0;
+    /**
+     * La valeur maximale des champs de l'adresse.
+     */
     static final int FIELD_MAX = 255; 
     
     /**
@@ -14,12 +23,23 @@ public class AdresseIP implements Comparable<AdresseIP> {
     */
     private int[] fields;
 
+    /**
+     * Construit une adresse à partir de ses champs.
+     * @param a premier octet
+     * @param b deuxieme octet
+     * @param c troisieme octet
+     * @param d quatrième octet
+     */
     public AdresseIP(final int a, final int b, final int c, final int d) throws BoundsException {
         int[] asArray = { a, b, c, d };
         this.fields = asArray;
         this.checkBounds();
     }
 
+    /**
+     * Parse une adresse.
+     * @param code l'adresse au format textuel
+     */
     public AdresseIP(final String code) throws BoundsException, FormatException, NumberFormatException {
         final FormatException formatException = new FormatException("[0-255].[0-255].[0-255].[0-255]");
 
@@ -41,6 +61,9 @@ public class AdresseIP implements Comparable<AdresseIP> {
         this.checkBounds();
     }
 
+    /**
+     * Vérifie que chaque champ est codable sur un octet.
+     */
     private void checkBounds() throws BoundsException {
         for(int b : this.fields) {
             if (b < AdresseIP.FIELD_MIN || b > AdresseIP.FIELD_MAX) {
@@ -49,6 +72,9 @@ public class AdresseIP implements Comparable<AdresseIP> {
         }
     }
 
+    /**
+     * Retourne au format octet par octet base dix.
+     */
     public String toString() {
         return String.format(
             "%d.%d.%d.%d",
@@ -59,11 +85,18 @@ public class AdresseIP implements Comparable<AdresseIP> {
         );
     }
 
+    /**
+     * Sert à être stockable dans une `HashMap`.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.fields[0], this.fields[1], this.fields[2], this.fields[3]);
     }
 
+    /**
+     * Compart les champs un par un.
+     * @param l'objet comparé
+     */
     @Override
     public boolean equals(Object other) {
         if (! (other instanceof AdresseIP)) {
@@ -80,6 +113,10 @@ public class AdresseIP implements Comparable<AdresseIP> {
         return true;
     }
 
+    /**
+     * Permet de trier une liste d'adresses.
+     * @param l'adresse comparée
+     */
     @Override
     public int compareTo(AdresseIP other) {
         for (int i = 0; i < 4; i++) {

@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Réprésente un serveur DNS. Lis et écris dans un fichier de BDD.
+ */
 public class Dns {
     private Properties proprietesBDD = null;
     /**
@@ -26,10 +29,13 @@ public class Dns {
      */
     private HashMap<NomMachine, AdresseIP> nom_adresse_map = new HashMap<NomMachine, AdresseIP>();
 
+    /**
+     * Constructeur par défaut. Charge la BDD.
+     */
     public Dns() throws IOException {
         this.chargerProprietes();
 
-        // On remplie les HashMap avec les DnsItem sauvegardés.
+        // On remplit les HashMap avec les DnsItem sauvegardés.
         List<DnsItem> items = this.loadItems();
         for (DnsItem item : items) {
             this.nom_adresse_map.put(item.getNom(), item.getAdresse());
@@ -37,6 +43,10 @@ public class Dns {
         }
     }
 
+    /**
+     * Ajoute un item dans la BDD.
+     * @param item l'item à ajouter
+     */
     public void addItem(DnsItem item) throws ExisteDejaException, IOException {
         // `foundByName` et `foundByAdresse` doivent tous les deux
         // soulever une `AucunItemException` pour que le code de cette fonction s'exécute.
@@ -59,6 +69,10 @@ public class Dns {
         }
     }
 
+    /**
+     * Retourne un item depuis une adresse.
+     * @param l'adresse en question
+     */
     public DnsItem getItem(AdresseIP ip) throws AucunItemException {
         NomMachine nom = this.adresse_nom_map.get(ip);
 
@@ -70,6 +84,10 @@ public class Dns {
         }
     }
 
+    /**
+     * Retourne un item depuis un nom de machine.
+     * @param nom le nom de machine en question
+     */
     public DnsItem getItem(NomMachine nom) throws AucunItemException {
         AdresseIP ip = this.nom_adresse_map.get(nom);
         if (ip == null) {
@@ -80,6 +98,10 @@ public class Dns {
         }
     }
 
+    /**
+     * Retourne la liste des machines d'un domaine.
+     * @param domaine le domaine à étudier
+     */
     public List<DnsItem> getItems(String domaine) {
         LinkedList<DnsItem> result = new LinkedList<DnsItem>();
         for (HashMap.Entry<NomMachine, AdresseIP> ligne : this.nom_adresse_map.entrySet()) {
@@ -93,6 +115,9 @@ public class Dns {
         return result;
     }
 
+    /**
+     * Retourne la liste parsée des items de la BDD.
+     */
     public List<DnsItem> loadItems() throws IOException {
         List<String> lines = Files.readAllLines(
           this.getDatabasePath()
@@ -112,10 +137,16 @@ public class Dns {
         return toReturn;
     }
 
+    /**
+     * Retourne le chemin du fichier de BDD.
+     */
     public Path getDatabasePath() {
         return Paths.get(this.proprietesBDD.getProperty("filepath"));
     }
 
+    /**
+     * Charge le fichier de propriétés.
+     */
     private void chargerProprietes() throws IOException {
       InputStream flux = Files.newInputStream(
         Paths.get("src/main/resources/database.properties")

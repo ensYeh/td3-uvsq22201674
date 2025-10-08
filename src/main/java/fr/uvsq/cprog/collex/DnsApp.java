@@ -3,7 +3,14 @@ package fr.uvsq.cprog.collex;
 import java.util.Scanner;
 import java.io.IOException;
 
+
+/**
+ * Interface en ligne de commande simulant un serveur DNS.
+ */
 final class DnsApp {
+    /**
+     * Constructeur par défaut désactivé.
+     */
     private DnsApp() {
         throw new UnsupportedOperationException(
             "La classe main est une classe utilitaire"

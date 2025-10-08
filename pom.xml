@@ -39,6 +39,7 @@
               <id>validate-checkstyle</id>
               <phase>validate</phase>
               <configuration>
+                <configLocation>https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml</configLocation>
                 <failOnViolation>false</failOnViolation>
               </configuration>
               <goals>
