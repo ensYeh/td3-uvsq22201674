@@ -9,9 +9,11 @@ public class QuitterApp implements Commande<Void> {
 
 	@Override
 	public Void executer() {
+		System.out.println("Vous quittez l'application.");
+		
 		this.aModifier.setEtatCourant(
-			EtatApp.EtatPossible.QUITTEE)
-		;
+			EtatApp.EtatPossible.QUITTEE
+		);
 
 		return null;
 	}
