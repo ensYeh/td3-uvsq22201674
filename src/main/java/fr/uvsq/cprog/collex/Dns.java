@@ -52,14 +52,19 @@ public class Dns {
         // soulever une `AucunItemException` pour que le code de cette fonction s'exécute.
         try {
             DnsItem foundByName = this.getItem(item.getNom());
+            // Un item avec ce nom existe déjà.
             throw new ExisteDejaException(item.toString());
         } catch(AucunItemException e0) {
             try {
                 DnsItem foundByAdress = this.getItem(item.getAdresse());
+                // Un item avec cette adresse existe déjà.
                 throw new ExisteDejaException(item.toString());
             } catch(AucunItemException e1) {
+                // L'item n'est pas encore enregistré.
+                // On remplit les `HashMap`s.
                 nom_adresse_map.put(item.getNom(), item.getAdresse());
                 adresse_nom_map.put(item.getAdresse(), item.getNom());
+                // On met  à jour le fichier de BDD.
                 Files.writeString(
                   this.getDatabasePath(),
                   String.format("%s\n", item.toString()),
@@ -103,7 +108,12 @@ public class Dns {
      * @param domaine le domaine à étudier
      */
     public List<DnsItem> getItems(String domaine) {
+        // On utilise une `LinkedList` pour éviter le problème de
+        // contiguité limitée en mémoire.
         LinkedList<DnsItem> result = new LinkedList<DnsItem>();
+        // On itère sur tous les éléments d'une de nos deux `HashMap`s.
+        // Pour que cette boucle fonctionne il faut veiller à ce que nos
+        // deux `HashMap`s soient synchronisées.
         for (HashMap.Entry<NomMachine, AdresseIP> ligne : this.nom_adresse_map.entrySet()) {
             NomMachine nom = ligne.getKey();
             AdresseIP adresse = ligne.getValue();
@@ -119,13 +129,18 @@ public class Dns {
      * Retourne la liste parsée des items de la BDD.
      */
     public List<DnsItem> loadItems() throws IOException {
+        // On lit le fichier de BDD.
         List<String> lines = Files.readAllLines(
           this.getDatabasePath()
         );
 
+        // On essaye de parser la BDD ligne à ligne.
         List<DnsItem> toReturn = new ArrayList<DnsItem>();
         for (String line : lines) {
             try {
+                // Aucune erreur ne devrait être soulevée
+                // si personne n'a modifié le fichier de BDD
+                // à la main.
                 DnsItem newItem = new DnsItem(line);
                 toReturn.add(newItem);
             } catch(FormatException e) {

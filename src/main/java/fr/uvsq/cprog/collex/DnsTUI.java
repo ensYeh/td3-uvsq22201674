@@ -48,9 +48,11 @@ public class DnsTUI {
 		String[] splited = text.split("\s");
 
 		if (splited[0].isEmpty()) {
+			// Autrement dit : text.equals("").
 			return new QuitterApp(this.etat);
 		}
 
+		// On match le format de chaque commande
 		if (splited[0].equals("add")) {
 			if (splited.length == 3) {
 				return new AjouterItem(this.dns, new DnsItem(splited[1] + " " + splited[2]));
@@ -61,10 +63,13 @@ public class DnsTUI {
 			if (splited.length == 2) {
 				return new ListeMachines(this.dns, false, splited[1]);
 			} else if (splited.length == 3) {
+				// Il est possible qu'on ai le paramètre -a.
 				int optionIndex = Arrays.asList(splited).indexOf("-a");
 				if (optionIndex == -1) {
-					throw new FormatException("ls -a [domaine] ou ls [domaine] -a");
+					// Fausse alerte, l'utilisateur a juste tapé un ls invalide.
+					throw new FormatException("ls -a [domaine] ou ls [domaine] -a ou ls [domaine]");
 				} else {
+					// On a le paramètre -a.
 					int domaineIndex = optionIndex == 1 ? 2 : 1;
 					return new ListeMachines(this.dns, true, splited[domaineIndex]);
 				}
@@ -72,15 +77,21 @@ public class DnsTUI {
 				throw new NombreArgumentsException(2, splited.length);
 			}
 		} else if (splited[0].split("\\.").length == 3) {
+			// Trois champs séparés de points constituent le
+			// bon format pour un nom de machine.
 			if (splited.length == 1) {
 				return new RechercheNom(this.dns, new NomMachine(splited[0]));
 			} else {
+				// L'utilisateur a essayé de passer des arguments à la recherche.
 				throw new NombreArgumentsException(1, splited.length);
 			}
 		} else if (splited[0].split("\\.").length == 4) {
+			// Quatre champs séparés de points constituent le
+			// bon format pour une adresse IPv4.
 			if (splited.length == 1) {
 				return new RechercheAdresse(this.dns, new AdresseIP(splited[0]));
 			} else {
+				// Arguments en trop·
 				throw new NombreArgumentsException(1, splited.length);
 			}
 		} else if (splited[0].equals("quit")) {

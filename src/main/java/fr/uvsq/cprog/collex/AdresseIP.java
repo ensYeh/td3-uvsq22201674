@@ -48,6 +48,7 @@ public class AdresseIP implements Comparable<AdresseIP> {
         final String[] splitted = code.split("\\.");
         
         if (splitted.length != 4) {
+            // Ce n'est pas une IPv4, on lève une erreur de format.
             for (String s : splitted) {
                 System.out.println(s);
             }
@@ -100,11 +101,13 @@ public class AdresseIP implements Comparable<AdresseIP> {
     @Override
     public boolean equals(Object other) {
         if (! (other instanceof AdresseIP)) {
+            // Une adresse IP ne peut être égale qu'à une adresse IP.
             return false;
         }
 
         AdresseIP casted_other = (AdresseIP) other;
-        
+
+        // On compare champ à champ.
         for (int i = 0; i < 4; i++) {
             if (this.fields[i] != casted_other.fields[i]) {
                 return false;
@@ -119,6 +122,9 @@ public class AdresseIP implements Comparable<AdresseIP> {
      */
     @Override
     public int compareTo(AdresseIP other) {
+        // On compare champ à champ
+        // (On considère que le bit le plus significatif
+        //  est à gauche)
         for (int i = 0; i < 4; i++) {
             if (this.fields[i] < other.fields[i]) {
                 return -1;
