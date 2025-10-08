@@ -25,7 +25,7 @@ public class ListeMachines implements Commande<ArrayList<DnsItem>> {
      * @param mode si le paramètre -a est activé
      * @param la domaine des machines à lister
      */
-    public ListeMachines(Dns rechercherDans, boolean mode, String listerDans) {
+    public ListeMachines(Dns rechercherDans, final boolean mode, final String listerDans) {
         this.dns = rechercherDans;
         this.parametreA = mode;
         this.domaine = listerDans;
@@ -60,7 +60,7 @@ public class ListeMachines implements Commande<ArrayList<DnsItem>> {
     /**
      * Modifie l'activation du paramètre -a.
      */
-    public void setParametreA(boolean valeur) {
+    public void setParametreA(final boolean valeur) {
         this.parametreA = valeur;
     }
 }

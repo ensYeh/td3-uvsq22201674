@@ -29,7 +29,7 @@ public class DnsTUI {
 	 * Gère l'affichage d'un résultat de commande.
 	 * @param e le résultat de la commande
 	 */
-	public void affiche(Object e) {
+	public void affiche(final Object e) {
 		if (e == null) {
 			// Ne rien afficher.
 		} else if (e instanceof Exception) {
@@ -44,7 +44,7 @@ public class DnsTUI {
 	 * Parse une commande.
 	 * @param text la commande parsée
 	 */
-	public Commande nextCommande(String text) throws CommandeInconnueException, FormatException, BoundsException, NombreArgumentsException {
+	public Commande nextCommande(final String text) throws CommandeInconnueException, FormatException, BoundsException, NombreArgumentsException {
 		String[] splited = text.split("\s");
 
 		if (splited.length == 0 || splited[0].isEmpty()) {

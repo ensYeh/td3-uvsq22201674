@@ -22,7 +22,7 @@ public class DnsItem {
      * @param ip l'adresse
      * @param n le nom
      */
-    public DnsItem(AdresseIP ip, NomMachine n) {
+    public DnsItem(final AdresseIP ip, final NomMachine n) {
         this.adresse = ip;
         this.nom = n;
     }
@@ -31,7 +31,7 @@ public class DnsItem {
      * Constructeur-parseur. Format : '[adresse] [nom]'
      * @param s la `String` à parser.
      */
-    public DnsItem(String s) throws FormatException, BoundsException {
+    public DnsItem(final String s) throws FormatException, BoundsException {
         String[] splitted = s.split("\s");
         this.adresse = new AdresseIP(splitted[0]);
         this.nom = new NomMachine(splitted[1]);
@@ -56,7 +56,7 @@ public class DnsItem {
      * @param other l'objet comparé.
      */
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (!(other instanceof DnsItem)) {
             return false;
         }

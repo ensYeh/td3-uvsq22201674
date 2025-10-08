@@ -34,7 +34,7 @@ class EtatApp {
 	/**
 	 * Modifie l'état courant.
 	 */
-	public void setEtatCourant(EtatPossible nouvelEtat) {
+	public void setEtatCourant(final EtatPossible nouvelEtat) {
 		this.etatCourant = nouvelEtat;
 	}
 }

@@ -67,7 +67,7 @@ public class NomMachine implements Comparable<NomMachine>  {
      * @param other l'objet comparé
      */
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (! (other instanceof NomMachine)) {
             return false;
         }
@@ -82,7 +82,7 @@ public class NomMachine implements Comparable<NomMachine>  {
      * @param other l'objet comparé
      */
     @Override
-    public int compareTo(NomMachine other) {
+    public int compareTo(final NomMachine other) {
         return this.toString().compareTo(other.toString());
     }
 }

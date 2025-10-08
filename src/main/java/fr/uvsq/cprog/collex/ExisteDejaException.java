@@ -8,7 +8,7 @@ public class ExisteDejaException extends Exception {
      * Formate le message d'erreur.
      * @param field une représentation de l'item recherché
      */
-    public ExisteDejaException(String field) {
+    public ExisteDejaException(final String field) {
         super(String.format("Le champ '%s' existe déjà.", field));
     }
 }
