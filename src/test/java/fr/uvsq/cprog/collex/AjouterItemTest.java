@@ -5,11 +5,11 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
-import fr.uvsq.cprog.collex.ExisteDejaException;
+import java.io.IOException;
 
 public class AjouterItemTest {
 	@Test
-	public void doubleAjout() {
+	public void doubleAjout() throws IOException, FormatException, BoundsException {
 		Dns dns = new Dns();
 		DnsItem aAjouter = new DnsItem("60.60.50.50 www.nexistepasencore.fr");
 		AjouterItem commande = new AjouterItem(dns, aAjouter);
@@ -21,7 +21,7 @@ public class AjouterItemTest {
 				() -> commande.executer()
 			);
 			
-			DnsTest.resetTestDatabase();
+			DnsTest.resetTestDatabase(dns);
 		} catch (ExisteDejaException e) {
 			System.out.println(e.getMessage());
 			fail();

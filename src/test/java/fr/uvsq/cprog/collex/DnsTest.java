@@ -64,7 +64,7 @@ public class DnsTest {
                 new DnsItem("76.16.0.1 www.banana.fr")
             );
 
-            DnsTest.resetTestDatabase();
+            DnsTest.resetTestDatabase(dns);
         } catch (ExisteDejaException e) {
             System.out.println(e.getMessage());
             fail();
@@ -80,7 +80,7 @@ public class DnsTest {
         );
     }
 
-    public static resetTestDatabase() {
+    public static void resetTestDatabase(Dns dns) throws IOException {
         // Nettoyage de la base de données pour reproductibilité du test
         Files.writeString(
             dns.getDatabasePath(),
