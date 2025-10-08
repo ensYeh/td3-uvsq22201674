@@ -1,6 +1,6 @@
 package fr.uvsq.cprog.collex;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class QuitterAppTest {
@@ -9,8 +9,8 @@ public class QuitterAppTest {
 		EtatApp etat = new EtatApp();
 		QuitterApp commande = new QuitterApp(etat);
 
-		assertEquals(etat.equals(EtatApp.Active));
+		assertEquals(etat.getEtatCourant(), EtatApp.EtatPossible.ACTIVE);
 		commande.executer();
-		assertTrue(etat.equals(EtatApp.Quittee));
+		assertEquals(etat.getEtatCourant(), EtatApp.EtatPossible.QUITTEE);
 	}
 }
