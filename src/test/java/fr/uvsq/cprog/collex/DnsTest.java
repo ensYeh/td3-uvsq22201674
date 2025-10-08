@@ -64,13 +64,7 @@ public class DnsTest {
                 new DnsItem("76.16.0.1 www.banana.fr")
             );
 
-            // Nettoyage de la base de données pour reproductibilité du test
-            Files.writeString(
-                dns.getDatabasePath(),
-                "192.168.0.1 www.uvsq.fr\n53.35.16.61 xylophone.uvsq.fr\n201.102.10.1 capital.marx.de\n",
-                StandardOpenOption.WRITE,
-                StandardOpenOption.TRUNCATE_EXISTING
-            );
+            DnsTest.resetTestDatabase();
         } catch (ExisteDejaException e) {
             System.out.println(e.getMessage());
             fail();
@@ -83,6 +77,16 @@ public class DnsTest {
         assertThrows(
             ExisteDejaException.class,
             () -> dns.addItem(new DnsItem("192.168.0.1 www.uvsq.fr"))
+        );
+    }
+
+    public static resetTestDatabase() {
+        // Nettoyage de la base de données pour reproductibilité du test
+        Files.writeString(
+            dns.getDatabasePath(),
+            "192.168.0.1 www.uvsq.fr\n53.35.16.61 xylophone.uvsq.fr\n201.102.10.1 capital.marx.de\n",
+            StandardOpenOption.WRITE,
+            StandardOpenOption.TRUNCATE_EXISTING
         );
     }
 }
