@@ -36,7 +36,7 @@
           <executions>
             <execution>
               <id>rapport-de-routine</id>
-              <phase>validate</phase>
+              <phase>test</phase>
               <goals>
                 <goal>prepare-agent</goal>
                 <goal>report</goal>

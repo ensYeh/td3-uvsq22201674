@@ -47,7 +47,7 @@ public class DnsTUI {
 	public Commande nextCommande(final String text) throws CommandeInconnueException, FormatException, BoundsException, NombreArgumentsException {
 		String[] splited = text.split("\s");
 
-		if (splited.length == 0 || splited[0].isEmpty()) {
+		if (splited[0].isEmpty()) {
 			return new QuitterApp(this.etat);
 		}
 
